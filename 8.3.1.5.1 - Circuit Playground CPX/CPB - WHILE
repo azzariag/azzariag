@@ -1,0 +1,128 @@
+# Python While - User, Random Numbers, Guessing, NeoPixels Lab - Scratch Pad
+# Use this Replit to try some code... Use it as a scratch pad.
+
+'''
+Coding Challenge:
+While - User, Random Numbers, Guessing, NeoPixels
+
+Starting with this random number generating code,
+create a guessing game, where you ask the user for a
+random number, and then try to guess it randomly in less
+than 5 tries.
+
+pseudocode:
+ - Ask the user for a number from 1 and 10
+ - Test that the number is 1-10
+ - Turn that NeoPixlel Green
+ - Setup a while loop to run only 5 times with a
+   loop count variable
+ - inside the while loop test if the random
+   number is == the user number
+   - if the random number matches the user number
+     - Turn that NeoPixlel Blue
+     - use the "break" command to break out of the loop
+   - else
+     - turn that NeoPixel Red
+     - Increment the loop count variable
+ - When the while loop ends (either after 5 loops or the break)
+   - If the loop counter is less that 5 times, then the computer
+     wins. print('I Win, I guessed your number in',count,'tries')
+   - Else, the user wins. print('You Win, I did not guess your
+     number in', count, 'tries')
+
+Expected Output: (Possible... It's a Random Number)
+
+  Starting Code Challenge
+  Enter an integer number from 1-10 > 5
+  Your number 5 is a valid Integer from 1-10.  Thanks
+  Your Number is  5
+  Turning Your NeoPixel Green
+  Starting Gessing Loop
+  Guess # 1
+  I guessed 9
+  Guess # 2
+  I guessed 5
+  I Win, I guessed your number in 2 tries
+  Ending While Loop
+  Ending Code Challenge
+ 
+or
+ 
+  Starting Code Challenge
+  Enter an integer number from 1-10 > 8
+  Your number 8 is a valid Integer from 1-10.  Thanks
+  Your Number is  8
+  Turning Your NeoPixel Green
+  Starting Gessing Loop
+  Guess # 1
+  I guessed 1
+  Guess # 2
+  I guessed 4
+  Guess # 3
+  I guessed 6
+  Guess # 4
+  I guessed 1
+  Guess # 5
+  I guessed 3
+  You Win, I did not guess your number in 5 tries
+  Ending While Loop
+  Ending Code Challenge
+ 
+'''
+
+# <Add Any Header Comments, Versioning & License>
+# <Add a Comment Here to describe/explain what you are doing>
+
+# Your Code Starts Here:
+
+# Include any Libraries
+import time
+import board
+import neopixel
+from random import randint
+
+# Declare Any Global Variables
+
+def main():
+    print("Starting Code Challenge")
+    print("I will try to guess your number in under 10 tries")
+    un = int(input("Enter a number between 1 to 10 >"))
+    if not isinstance(un, int):
+        raise TypeError("Only integers are allowed")
+   
+    tries = 1
+    pixels = neopixel.NeoPixel(board.NEOPIXEL, 10)
+    pixels.fill((0, 0, 0))
+    pixels.brightness = 0.5
+    guess = randint(1, 10)  
+
+    while guess != un:
+        print("Guess #", tries)
+        guess = randint(1, 10)
+        print("I guessed", guess)
+        pixels.fill((255,0,0))
+        pixels[guess-1]= (0,0,255)
+        if guess == un:
+            print("I have guessed your number correctly. It was", un)
+            pixels.fill((0, 0, 255))
+            break
+        tries += 1  # Increment tries without using global
+        if tries >= 10:
+            pixels.fill((255,0,0))
+            print("NOOOOOO! I WASN'T ABLE TO GUESS YOUR NUMBER!!!! >:(")
+            break
+        time.sleep(0.5)
+        pixels.fill((0,0,0))
+        time.sleep(0.5)
+    time.sleep(0.5)  
+    if tries < 5:
+        pixels.fill((0,255,0))
+        print("I WON!! I was able to guess your number in under 5 tries :)")
+    elif tries > 5 and tries < 10:
+        pixels.fill((255,255,0))
+        print("I have failed, I wasn't able to guess you number in under 5 tries :(")
+       
+    print("Ending Code Challenge")
+
+main()
+ 
